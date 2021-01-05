@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WCF SOAP Services", "WCF SOAP Services\", "{2057A33C-7D23-4ADD-AB24-BB1A9B8529F0}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.7.2"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_63453"
+		Debug.AspNetCompiler.PhysicalPath = "WCF SOAP Services\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63453\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_63453"
+		Release.AspNetCompiler.PhysicalPath = "WCF SOAP Services\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63453\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "63453"
+		SlnRelativePath = "WCF SOAP Services\"
+		DefaultWebSiteLanguage = "Visual C#"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2057A33C-7D23-4ADD-AB24-BB1A9B8529F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2057A33C-7D23-4ADD-AB24-BB1A9B8529F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0D1F743-80FB-4906-8F4A-CB733C3FC09B}
+	EndGlobalSection
+EndGlobal
