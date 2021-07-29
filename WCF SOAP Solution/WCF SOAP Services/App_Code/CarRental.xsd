@@ -28,6 +28,15 @@ FROM            pessoa INNER JOIN
               </DbCommand>
             </SelectCommand>
           </DbSource>
+          <DbSource ConnectionRef="AzureCarRentalConnectionString (Web.config)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="ScalarQuery2" MethodsParameterType="CLR" Modifier="Public" Name="ScalarQuery2" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="ScalarQuery2">
+            <SelectCommand>
+              <DbCommand CommandType="Text" ModifiedByUser="true">
+                <CommandText>SELECT        
+FROM            pessoa</CommandText>
+                <Parameters />
+              </DbCommand>
+            </SelectCommand>
+          </DbSource>
         </Sources>
       </DataSource>
     </xs:appinfo>

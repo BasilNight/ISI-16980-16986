@@ -1,4 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿/*
+ * Trabalho Pratico 2 ISI
+ * 
+ * Autores: Luís Martins nº16980, Carlos Ribeiro º16986
+ * 
+ * 
+ */
+
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,8 +24,9 @@ public class Aluguer : IAluguer
     /// <param name="marca"></param>
     /// <param name="modelo"></param>
     /// <returns></returns>
-    public bool AddAluguer(string email, string marca, string modelo, string dataIn, string dataOut)
+    public bool AddAluguer(string email, string marca, string modelo, DateTime dataIn, DateTime dataOut)
     {
+        //Faz conexão à base de dados utilizando a connection string adicionada no web.config
         SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AzureCarRentalConnectionString"].ConnectionString);
 
         try
@@ -33,6 +42,7 @@ public class Aluguer : IAluguer
         }
         if (connection.State.ToString() == "Open")
         {
+            //Construção da query
             string comando;
             comando = "Insert into aluguer (id_pessoa, nome_modelo, nome_marca, data_inicio, data_final) values((select id_pessoa from pessoa where email_pessoa = @email), @nomeMarca, @nomeModelo, @dataIn, @dataOut);";
 
@@ -41,8 +51,8 @@ public class Aluguer : IAluguer
             cmdins.Parameters.AddWithValue("@email", email);
             cmdins.Parameters.AddWithValue("@nomeMarca", marca);
             cmdins.Parameters.AddWithValue("@nomeModelo", modelo);
-            cmdins.Parameters.AddWithValue("@dataIn", DateTime.Parse(dataIn)); // Dps adicionar forma de mudar datas and stuff, isto é temporario!!!
-            cmdins.Parameters.AddWithValue("@dataOut", DateTime.Parse(dataOut));
+            cmdins.Parameters.AddWithValue("@dataIn", dataIn); 
+            cmdins.Parameters.AddWithValue("@dataOut", dataOut);
 
             int res = cmdins.ExecuteNonQuery();
             if (res > 0)
@@ -61,6 +71,7 @@ public class Aluguer : IAluguer
     /// <returns></returns>
     public string ProcuraAlugueres(string email)
     {
+        //Faz conexão à base de dados utilizando a connection string adicionada no web.config
         SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AzureCarRentalConnectionString"].ConnectionString);
 
         try
@@ -70,10 +81,11 @@ public class Aluguer : IAluguer
         catch
         {
             connection.Close();
-            return "Fail";
+            return null;
         }
         if (connection.State.ToString() == "Open")
         {
+            //Construção da query
             string comando = "SELECT aluguer.id_aluguer ,pessoa.primeiro_nome, pessoa.ultimo_nome,pessoa.email_pessoa ,aluguer.nome_marca, aluguer.nome_modelo, aluguer.data_inicio, aluguer.data_final from aluguer INNER JOIN pessoa on aluguer.id_pessoa = pessoa.id_pessoa where pessoa.email_pessoa = @email;";
 
             SqlCommand cmd = new SqlCommand(comando, connection);
@@ -89,7 +101,7 @@ public class Aluguer : IAluguer
             connection.Close();
             return json;
         }
-        else return "fail";
+        else return null;
     }
 
     /// <summary>
@@ -101,8 +113,9 @@ public class Aluguer : IAluguer
     /// <param name="datain"></param>
     /// <param name="dataout"></param>
     /// <returns></returns>
-    public bool UpdateAluguer(string id_aluguer, string nome_marca, string nome_modelo, string datain, string dataout)
+    public bool UpdateAluguer(int id_aluguer, string nome_marca, string nome_modelo, DateTime datain, DateTime dataout)
     {
+        //Faz conexão à base de dados utilizando a connection string adicionada no web.config
         SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AzureCarRentalConnectionString"].ConnectionString);
 
         try
@@ -116,25 +129,27 @@ public class Aluguer : IAluguer
         }
         if (connection.State.ToString() == "Open")
         {
+            //Construção da query
             string comando = "Update aluguer SET nome_modelo = @nomemarca, nome_marca = @nomemodelo, data_inicio = @datain , data_final = @dataout WHERE id_aluguer = @idaluguer";
 
             SqlCommand cmd = new SqlCommand(comando, connection);
 
             cmd.Parameters.AddWithValue("@nomemarca", nome_marca);
             cmd.Parameters.AddWithValue("@nomemodelo", nome_modelo);
-            cmd.Parameters.AddWithValue("@datain", DateTime.Parse(datain));
-            cmd.Parameters.AddWithValue("@dataout", DateTime.Parse(dataout));
+            cmd.Parameters.AddWithValue("@datain", datain);
+            cmd.Parameters.AddWithValue("@dataout", dataout);
             cmd.Parameters.AddWithValue("@idaluguer", id_aluguer);
 
-            cmd.ExecuteNonQuery();
-            DataSet dataSet = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-
-            da.Fill(dataSet, "Alugueres");
-
-            string json = JsonConvert.SerializeObject(dataSet);
-            connection.Close();
-            return true;
+            int tot = cmd.ExecuteNonQuery();
+            
+            if (tot == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else return false;
     }
@@ -144,8 +159,9 @@ public class Aluguer : IAluguer
     /// </summary>
     /// <param name="id_aluguer"></param>
     /// <returns></returns>
-    public bool EliminaAluguer(string id_aluguer)
+    public bool EliminaAluguer(int id_aluguer)
     {
+        //Faz conexão à base de dados utilizando a connection string adicionada no web.config
         SqlConnection connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AzureCarRentalConnectionString"].ConnectionString);
 
         try
@@ -159,21 +175,24 @@ public class Aluguer : IAluguer
         }
         if (connection.State.ToString() == "Open")
         {
+            //Construção da query
             string comando = "DELETE FROM aluguer WHERE id_aluguer = @idaluguer;";
 
             SqlCommand cmd = new SqlCommand(comando, connection);
 
             cmd.Parameters.AddWithValue("@idaluguer", id_aluguer);
 
-            cmd.ExecuteNonQuery();
-            DataSet dataSet = new DataSet();
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            int tot = cmd.ExecuteNonQuery();
 
-            da.Fill(dataSet, "Alugueres");
-
-            string json = JsonConvert.SerializeObject(dataSet);
-            connection.Close();
-            return true;
+            if (tot == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+           
         }
         else return false;
     }
